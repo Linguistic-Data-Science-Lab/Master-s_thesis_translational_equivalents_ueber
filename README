@@ -1,0 +1,71 @@
+Dieser Ordner enthält die Daten und Skripte zu "Über 'über' und dessen Entsprechungen im Englischen" von Simon Masloch (2021) sowie die Arbeit selbst. Nicht enthalten ist das CoStEP-Korpus, auf dem die Annotationen durchgeführt wurden. Es ist verfügbar unter https://pub.cl.uzh.ch/wiki/public/costep/start.
+Die Daten und Skripte sind im Frühjahr/Sommer 2020 für die unter dem gleichen Titel an der Ruhr-Universität Bochum eingereichte Masterarbeit erstellt worden. Es handelt sich bei (Masloch, 2021) um eine leicht überarbeitete und gekürzte Version dieser Arbeit.
+
+Es folgen Erläuterungen zu den Unterordnern "Auswertungsskripte", "Daten", "Korpuserstellungsskripte" und "Text".
+
+##### Auswertungsskripte #####
+
+Enthalten sind die beiden R-Skripte, die zur Auswertung benutzt wurden und mit ihnen erstellte Sankey-Diagramme.
+
+- Analyse.R
+Enthält alle Auswertungen für die nach Bedeutungen getrennten Daten und erstellt die entsprechenden Tabellen.
+
+- Analyse_ohne_Zusammenfuehrungen.R
+Enthält alle Auswertungen für die  n i c h t  nach Bedeutungen getrennten Daten und erstellt die entsprechenden Tabellen.
+
+- Sankey…
+Sankey-Diagramme: Die HTML-Dateien wurden mit den R-Skripten erstellt, die PDF-Dateien mit wkhtmltopdf aus diesen HTML-Dateien.
+
+##### Daten #####
+
+Die Annotationen wurden mit Microsoft Excel in XLSX-Dateien vorgenommen. Um sicherzustellen, dass sie auch auch später noch zugänglich sind, liegen sie auch als UTF16-kodierte Textdateien vor, in denen die Spalten durch Tabs und die Zeilen durch Zeilenumbrüche getrennt sind.
+
+- Annotationen_kombiniert.xlsx / ….txt
+Die ursprünglichen Annotationen
+
+- Annotationen_kombiniert_bearb.xlsx / ….txt
+Bearbeitete Annotationen, in denen die in Abschnitt 6 der Arbeit vorgeschlagenen Änderungen am Annotationsschema Anwendung fanden.
+
+##### Korpuserstellungsskripte #####
+
+Die Skripte, mit denen die Annotationsdateien aus CoStEP erstellt wurden.
+Wenn man sie anwenden möchte, muss man CoStEP herunterladen (https://pub.cl.uzh.ch/wiki/public/costep/start) und die Dateipfade entsprechend ändern.
+
+Pipeline:
+
+1. CoStEP2txts.py
+Erstellt aus den CoStEP-XML-Dateien für beide Sprachen Dateien, in denen jeder Satz ohne irgendwelche XML-Markierungen in einer Zeile steht und alle Tokens durch Leerzeichen getrennt sind.
+Die Dateipfade müssen natürlich geändert werden, wenn man das Skript ausführen möchte.
+
+2. Run_hunalign.py
+Satzalignierungen für die einzelnen Dokumente.
+Dateipfade müssten angepasst werden.
+
+3. make_sentence_aligned.py
+Erstellt aus den Hunspell-Alignierungsdateien die Ausgangsdaten für die Wortalignierung
+
+4. merge_files.py
+Erstellt aus den Dateien für die einzelnen Sitzungen jeweils eine große Datei mit dem Namen whole.txt pro Sprache.
+
+5. filter_for_word.py
+Extrahiert die Sätze, bei denen die deutsche Version "über" enthält. Die resultierenden Dateien heißen only_über_sentences.txt
+
+[Wortalignierung mit efmaral. Verwendet wurde folgender Befehl: python3 align.py -n 4 -l 2 -i Ausgangsdatei_de Ausgangsdatei_en > Ergebnisdatei. Dabei verändert -n 4 die Anzahl der Sampler und -l 2 die Anzahl der Iterationen.]
+
+6. aligned2prep_list.py
+Gibt eine Liste der 100 häufigsten Alignierungen in die Konsole aus und erstellt die Annotationsdatei.
+Die Datei, so wie sie jetzt ist, ist für die Erstellung der Annotationsdatei für die dritte Phase gedacht.
+Sie enthält Code, der verhindert, dass schon annotierte Sätze nochmal ausgegeben werden.
+Dazu werden die schon annotierten Daten eingelesen, die entsprechenden Abschnitte sollten also auskommentiert werden, wenn man from scratch beginnen möchte.
+
+Weitere Dateien:
+
+check_files.py
+Kann vor 4. verwendet werden, um zu prüfen, ob wirklich alle Dateien gleich lang sind.
+
+only_ueber_sentences_de.txt
+only_ueber_sentences_en.txt
+Ergebnisse von 5. filter_for_word.py.
+
+efmaral_n4l2_deen.txt
+Die mit efmaral erstellten Alignierungen
