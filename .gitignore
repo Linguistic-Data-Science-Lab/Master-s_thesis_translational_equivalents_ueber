@@ -1,0 +1,11 @@
+.Rhistory
+.Rapp.history
+.RData
+~$*.xls*
+*.tmp
+~$*.doc*
+~$*.ppt*
+*.xlk
+.DS_Store
+.AppleDouble
+.LSOverride
